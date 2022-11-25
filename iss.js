@@ -22,10 +22,10 @@ const fetchMyIp = function (callback) {
 
 const fetchCordsByIP = function (ip, callback) {
   // let returnObj = {};
-
+  console.log(ip);
   request(`http://ipwho.is/${ip}`, (error, response, data) => {
 
-    // console.log(data);
+    console.log(data);
 
     if (error) {
       callback(error, null);
@@ -142,5 +142,21 @@ const nextISSTimesForMyLocation = function (callback) {
   });
 };
 
+const printPassTimes = (passTimes) => {
+  const newArr = [];
 
-module.exports = { fetchMyIp, fetchCordsByIP, fetchISSFlyoverTimes, nextISSTimesForMyLocation };
+  for (let i = 0; i < passTimes.length; i++) {
+    const risetime = passTimes[i].risetime * 1000;
+    // console.log(risetime);
+
+    const date = new Date(risetime);
+    const dateUTC = date.toString();
+    // console.log(dateUTC);
+    let nextPass = `Next pass at ${dateUTC} for ${passTimes.duration} seconds`;
+    newArr.push(nextPass);
+  }
+
+  console.log(newArr)
+};
+
+module.exports = { fetchMyIp, fetchCordsByIP, fetchISSFlyoverTimes, nextISSTimesForMyLocation, printPassTimes };
